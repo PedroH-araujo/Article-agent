@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",               // Pasta para o código compilado
+    "rootDir": "./src",               // Pasta do código fonte
+    "strict": true,
+    "resolveJsonModule": true,        // Permite importação de arquivos JSON
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

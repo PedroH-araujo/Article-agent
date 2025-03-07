@@ -1,0 +1,264 @@
+Instruções para Criar um Fluxo
+
+Um "fluxo" é uma entidade personalizada que possui as seguintes propriedades: name, description, icon, e color. Ao criar um fluxo, essas propriedades devem ser fornecidas com os valores adequados. Caso algum valor não seja especificado, serão aplicados valores padrão.
+
+Propriedades do Fluxo:
+name (Nome):
+
+Descrição: O nome do fluxo que o identifica de forma única.
+Tipo: string
+Exemplo: "Meu primeiro fluxo"
+Valor padrão: "Nome teste do fluxo"
+description (Descrição):
+
+Descrição: Um texto que descreve o propósito ou funcionalidade do fluxo.
+Tipo: string
+Exemplo: "Este fluxo é usado para filtrar dados específicos."
+Valor padrão: "Descrição teste do fluxo"
+icon (Ícone):
+
+Descrição: O ícone que representa o fluxo visualmente.
+Tipo: string (ícone válido que pode ser exibido)
+Exemplo: "star-filled"
+Ícones válidos: 'chart-filled', 'peoples-filled', 'rocket-launch-filled',
+'idea-filled', 'handshakes-filled', 'warning-filled', 'settings-filled',
+'time-filled', 'info-filled', 'review-filled','star-filled'.
+Valor padrão: "star-filled"
+stages (Estágios):
+
+Descrição: Um array contendo os estágios que compõem o fluxo.
+Tipo: array (lista de estágios)
+Exemplo: []
+Valor padrão: [] (nenhum estágio definido)
+color (Cor):
+
+Descrição: A cor atribuída ao fluxo, representada por uma string (nome da cor ou código hexadecimal).
+Tipo: string
+Exemplo: "red"
+Valor padrão: "blue"
+
+Exemplo de Criação de um Fluxo:
+Para criar um fluxo, as seguintes informações devem ser passadas, cada fluxo possui um nome, descrição, ícone e cor que o identificam de forma única. Além disso, um fluxo pode conter uma lista de estágios.
+{
+  "name": "Meu primeiro fluxo",
+  "description": "Fluxo criado para processar dados",
+  "icon": "star-filled",
+  "color": "red",
+  "stages": [],
+}
+Valores Padrões:
+Se algum campo não for fornecido na criação do fluxo, o sistema utilizará os seguintes valores padrão:
+
+name: "Nome teste do fluxo"
+description: "Descrição teste do fluxo"
+icon: "star-filled"
+color: "blue"
+Essas propriedades formam a estrutura básica de um fluxo e devem ser especificadas corretamente para que o fluxo funcione como esperado.
+
+Instruções para Criar um Estágio
+
+Cada estágio dentro de um fluxo deve ser configurado com um conjunto de propriedades. O campo cards_can_be_moved_to_stages agora receberá os nomes dos estágios para os quais os cards podem ser movidos, facilitando a referência e o gerenciamento dos fluxos de trabalho.
+
+Propriedades do Estágio:
+name (Nome):
+
+Descrição: O nome do estágio, que o identifica dentro do fluxo.
+Tipo: string
+Exemplo: "Revisão"
+Valor padrão: "Nome do estágio"
+index (Índice):
+
+Descrição: A posição do estágio dentro do fluxo, que determina sua ordem.
+Tipo: number (inteiro positivo)
+Exemplo: 3
+Valor padrão: 1
+description (Descrição):
+
+Descrição: Um texto que descreve o propósito ou função do estágio no fluxo.
+Tipo: string
+Exemplo: "Este estágio é responsável por revisar os dados."
+Valor padrão: "Descrição do estágio."
+cards_can_be_moved_to_stages (Estágios para os quais os cards podem ser movidos):
+
+Descrição: Um array contendo os nomes dos estágios para os quais os cards podem ser movidos a partir deste estágio.
+Tipo: array (lista de nomes de estágios)
+Exemplo: ["Aprovado", "Revisão"]
+Valor padrão: [] (nenhum estágio definido)
+can_receive_card_directly_from_draft (Pode criar cards diretamente nesse estágio):
+
+Descrição: Define se cards podem ser criados diretamente nesse estágio, sem passar por outros estágios. Por padrão cards podem ser criados diretamente apenas no estágio inicial.
+Tipo: boolean
+Exemplo: true
+Valor padrão: true
+done (Finalizado):
+
+Descrição: Indica se o estágio é considerado um estágio finalizado dentro do fluxo, sempre o último estágio de um fluxo deve ser marcado como finalizado.
+Tipo: boolean
+Exemplo: false
+Valor padrão: false
+
+Exemplo de Criação de um Estágio:
+{
+  "name": "Revisão",
+  "index": 2,
+  "description": "Estágio onde os dados são revisados.",
+  "cards_can_be_moved_to_stages": ["Aprovado"],
+  "can_receive_card_directly_from_draft": true,
+  "done": false
+}
+
+Valores Padrões:
+Se algum campo não for fornecido durante a criação do estágio, o sistema utilizará os seguintes valores padrão:
+
+name: "Nome do estágio"
+index: 1
+description: "Descrição do estágio."
+cards_can_be_moved_to_stages: [] (nenhum estágio definido)
+can_receive_card_directly_from_draft: true
+done: false
+
+Instruções para criar um formulário
+
+Form (Formulário):
+Descrição: Formulário do fluxo. O formulário é composto por uma lista de perguntas que coletam informações dos usuários. As perguntas devem ser definidas de acordo com as necessidades do fluxo e as informações que devem ser coletadas.
+Tipo: array (lista de questões)
+Exemplo: []
+Valor padrão: [] (nenhuma questão definida)
+
+Propriedades do Formulário
+
+questions (Perguntas do formulário)
+
+Descrição: Lista de perguntas que compõem o formulário. Cada pergunta é representada por uma entrada do tipo FormQuestionInput, que inclui detalhes como título, tipo de resposta, posição, que é a ordenação das perguntas, e se é obrigatória. As perguntas serão utilizadas para coletar informações dos usuários ao criar um card no estágio inicial do fluxo. As perguntas devem ser definidas de acordo com as necessidades do fluxo e as informações que devem ser coletadas. As perguntas podem ser de diversos tipos, como texto, número, data, múltipla escolha, entre outros. Consulte a seção FormQuestionInput para obter mais detalhes.
+Tipo: FormQuestionInput[] (lista de objetos FormQuestionInput)
+Exemplo: [
+  { "title": "Qual é o seu nome?", "type": "shortAnswer" },
+  { "title": "Quantos anos você tem?", "type": "numeric" }
+]
+
+Valor padrão: null (nenhuma pergunta definida)
+
+Propriedades da Classe FormQuestionInput
+
+title (Título da questão)
+
+Descrição: Texto que representa a questão.
+Tipo: string
+Restrições: Mínimo de 3 caracteres, máximo de 255 caracteres.
+Exemplo: "Qual é o seu nome?"
+type (Tipo da questão)
+
+Descrição: Define o tipo da questão, que deve ser selecionado estritamente com base nos tipos válidos disponíveis. Tipos não listados abaixo não são permitidos. Se um tipo inválido for especificado, a resposta deve ser considerada incorreta.
+
+Tipo: string
+
+Tipos válidos:
+
+hour
+date
+picture
+numeric
+dropdown
+currency
+signature
+paragraph
+checkboxes
+shortAnswer
+multipleChoice
+multiplePicture
+url
+attachment
+Nenhum outro tipo será aceito.
+
+Exemplo: "shortAnswer"
+
+Restrições adicionais:
+
+Se for necessário mapear um tipo que não consta nesta lista, a instrução deve ser reformulada para usar o tipo mais adequado disponível na lista.
+Tipos comuns como text, textarea, ou select devem ser traduzidos para os equivalentes válidos:
+text → "shortAnswer"
+textarea → "paragraph"
+select → "multipleChoice"
+options (Opções da questão)
+
+Descrição: Lista de opções disponíveis para a questão, usada em campos como dropdowns ou multipleChoice.
+Tipo: FormQuestionOptionsInput[] (lista de objetos FormQuestionOptionsInput)
+Valor padrão: []
+Exemplo:[
+  { "value": "Sim", "position": 1 },
+  { "value": "Não", "position": 2 }
+]
+
+position (Ordem da questão)
+
+Descrição: Define a posição da questão dentro do formulário.
+Tipo: número inteiro (Int)
+Exemplo: 1
+required (Questão obrigatória)
+
+Descrição: Indica se a resposta à questão é obrigatória.
+Tipo: boolean
+Valor padrão: false (opcional)
+conditions (Condições da questão)
+
+Descrição: Define condições associadas à questão, que podem determinar sua exibição ou comportamento com base em outras respostas.
+Tipo: FormQuestionConditionInput[]
+Valor padrão: null (opcional)
+Exemplo:[
+  {
+    "question": { "id": "q2" },
+    "operator": "equals",
+    "value": "Sim"
+  }
+]
+_destroy (Remover questão)
+
+Descrição: Indica se a questão deve ser removida.
+Tipo: boolean
+Valor padrão: false (opcional)
+Propriedades da Classe FormQuestionOptionsInput
+
+value (Valor da opção)
+
+Descrição: Texto que representa o valor da opção.
+Tipo: string
+Exemplo: "Sim"
+position (Ordem da opção)
+
+Descrição: Define a posição da opção dentro da lista de opções.
+Tipo: número inteiro (Int)
+Exemplo: 1
+description (Descrição da opção)
+
+Descrição: Informações adicionais sobre a opção.
+Tipo: string
+Valor padrão: null (opcional)
+Exemplo: "Escolha essa opção caso concorde."
+score (Pontuação da opção)
+
+Descrição: Define a pontuação atribuída à opção, caso relevante.
+Tipo: número (opcional)
+Exemplo: 10
+_destroy (Remover opção)
+
+Descrição: Indica se a opção deve ser removida.
+Tipo: boolean
+Valor padrão: false
+Propriedades da Classe FormQuestionConditionInput
+
+question (Questão pai da condição)
+
+Descrição: Referência à questão que serve como base para a condição.
+Tipo: FormQuestionConditionParentQuestionInput
+Exemplo:
+{ "id": "q1" }
+operator (Operador da condição)
+
+Descrição: Define o operador usado na condição (exemplo: equals, notEquals, greaterThan).
+Tipo: string
+Exemplo: "equals"
+value (Valores da condição)
+
+Descrição: Valores utilizados para avaliar a condição.
+Tipo: string
+Exemplo: "Sim"
